@@ -35,17 +35,17 @@ $phone = site('phone');
         </p>
 
         <div class="welcome__actions">
-            <a class="start-btn start-btn--solid" href="?lang=fa" lang="fa">
+            <a class="start-btn start-btn--solid" href="<?= e(menu_url('fa')) ?>" lang="fa">
                 <span>شروع · مشاهده منو</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 5l-7 7 7 7"/></svg>
             </a>
-            <a class="start-btn start-btn--outline" href="?lang=en" lang="en" dir="ltr">
+            <a class="start-btn start-btn--outline" href="<?= e(menu_url('en')) ?>" lang="en" dir="ltr">
                 <span>Start · View Menu</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </a>
         </div>
 
-        <?php if (setting('club_enabled') === '1'): ?>
+        <?php if (club_enabled()): ?>
             <a class="welcome__club" href="club.php?lang=fa">
                 <?= icon('gift') ?>
                 <span>

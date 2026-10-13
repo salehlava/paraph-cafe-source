@@ -21,6 +21,18 @@ function e($s): string
     return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8');
 }
 
+/** Link to the menu in a language. The static HTML export (build-static.php) uses .html files. */
+function menu_url(string $lang): string
+{
+    return defined('STATIC_EXPORT') ? "menu-$lang.html" : "?lang=$lang";
+}
+
+/** The customer club needs PHP + SMS, so it is hidden in the static HTML export. */
+function club_enabled(): bool
+{
+    return !defined('STATIC_EXPORT') && setting('club_enabled') === '1';
+}
+
 /** Translate a UI string key. */
 function t(string $key, string $lang): string
 {

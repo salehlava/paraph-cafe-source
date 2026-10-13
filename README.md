@@ -12,6 +12,19 @@ A café menu website in Persian and English. The colour theme is chocolate, crea
 
 > The admin panel (menu editing, members, SMS panel, colours) is kept private and is not part of this repository.
 
+## Online menu
+
+**https://salehlava.github.io/paraf-cafe-menu/**
+
+GitHub Pages can't run PHP, so the online menu is a static HTML copy in `docs/`, made by `build-static.php`. It has the start screen and the menu in both languages. The customer club needs a PHP server, so it isn't part of the online copy.
+
+To update the online menu after changing it locally, run `publish-menu.bat`, or:
+
+```bash
+php build-static.php
+git add docs && git commit -m "Update online menu" && git push
+```
+
 ## Run locally
 
 Requires PHP 7.4+ with `pdo_sqlite`.
@@ -35,6 +48,8 @@ lib/                 Database, security, SMS API, club logic
 includes/            Header, footer, start screen, helpers
 assets/              CSS, JS, favicon
 router.php           Allow-list router for PHP's built-in server
+build-static.php     Builds the static online menu into docs/
+docs/                Static online menu (GitHub Pages)
 storage/             SQLite database (private, not in git)
 ```
 

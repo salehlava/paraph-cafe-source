@@ -38,15 +38,15 @@ $pageTitle = $pageTitle ?? t('menu', $lang);
         </a>
 
         <div class="topbar__actions">
-            <?php if (setting('club_enabled') === '1'): ?>
+            <?php if (club_enabled()): ?>
                 <a class="club-link" href="club.php?lang=<?= e($lang) ?>" title="<?= e(t('club', $lang)) ?>">
                     <?= icon('gift') ?>
                     <span><?= e(t('club', $lang)) ?></span>
                 </a>
             <?php endif; ?>
             <nav class="lang-switch" aria-label="Language">
-                <a href="?lang=fa" class="<?= $lang === 'fa' ? 'is-active' : '' ?>" hreflang="fa" lang="fa">فا</a>
-                <a href="?lang=en" class="<?= $lang === 'en' ? 'is-active' : '' ?>" hreflang="en" lang="en">EN</a>
+                <a href="<?= e(menu_url('fa')) ?>" class="<?= $lang === 'fa' ? 'is-active' : '' ?>" hreflang="fa" lang="fa">فا</a>
+                <a href="<?= e(menu_url('en')) ?>" class="<?= $lang === 'en' ? 'is-active' : '' ?>" hreflang="en" lang="en">EN</a>
             </nav>
             <button class="icon-btn" id="themeToggle" type="button" aria-label="<?= e(t('theme', $lang)) ?>" title="<?= e(t('theme', $lang)) ?>">
                 <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
