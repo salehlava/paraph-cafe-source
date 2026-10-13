@@ -1,0 +1,11 @@
+# Database and logs (contain the admin password hash, members and settings)
+storage/*.sqlite*
+storage/*.log
+
+# Admin panel — kept private, not published
+admin/
+assets/css/admin.css
+start-admin.bat
+reset-admin.bat
+lib/reset_admin.php
+ADMIN.md

@@ -1,0 +1,13 @@
+Options -Indexes
+DirectoryIndex index.php
+
+<FilesMatch "^(config|router)\.php$|^\.|\.(bat|md|sqlite|sqlite-wal|sqlite-shm|log|ini)$">
+    Require all denied
+</FilesMatch>
+
+# Security headers (also sent by PHP; these cover static files)
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "DENY"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "same-origin"
+</IfModule>
