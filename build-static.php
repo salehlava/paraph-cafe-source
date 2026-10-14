@@ -60,35 +60,4 @@ foreach ($assets as $a) {
 
 file_put_contents("$out/.nojekyll", '');   // serve files as-is on GitHub Pages
 
-// Railway (or any Docker host): a tiny Caddy web server that serves these files on $PORT.
-file_put_contents("$out/Dockerfile", <<<'DOCKER'
-FROM caddy:2-alpine
-COPY . /srv
-COPY Caddyfile /etc/caddy/Caddyfile
-
-DOCKER);
-file_put_contents("$out/Caddyfile", <<<'CADDY'
-{
-	admin off
-}
-
-:{$PORT:8080} {
-	root * /srv
-	encode gzip
-
-	# Server files are not part of the menu
-	@private path /Dockerfile /Caddyfile /.nojekyll
-	respond @private 404
-
-	header {
-		X-Frame-Options "DENY"
-		X-Content-Type-Options "nosniff"
-		Referrer-Policy "same-origin"
-		-Server
-	}
-	file_server
-}
-
-CADDY);
-echo "  wrote docs/Dockerfile + docs/Caddyfile (Railway)\n";
 echo "Done.\n";

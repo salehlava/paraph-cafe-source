@@ -35,24 +35,6 @@ git subtree split --prefix docs -b public-menu
 git push public public-menu:main                      # public HTML menu
 ```
 
-## Docker (whole site: menu, club, admin)
-
-```bash
-docker compose up -d --build        # → http://localhost:9000
-docker compose logs paraph          # first start: shows the admin password
-```
-
-The database is stored in the `paraph-data` volume, so it survives restarts and rebuilds.
-
-### Railway
-
-1. **New Project → Deploy from GitHub repo →** `paraph-cafe-source`. Railway uses the `Dockerfile` automatically.
-2. **Volumes:** add a volume mounted at **`/var/www/html/storage`**. Without it, every deploy starts with an empty database and your menu edits are lost.
-3. **Variables:** optionally set `ADMIN_USERNAME` and `ADMIN_PASSWORD` (8+ characters). If you don't, the first deploy log shows a random admin password.
-4. **Settings → Networking → Generate Domain.**
-
-The customer club stays closed online until a real SMS provider is set in Admin → پنل پیامک, because SMS test mode would show codes on screen.
-
 ## Run locally
 
 Requires PHP 7.4+ with `pdo_sqlite`.
