@@ -14,8 +14,8 @@ return [
         'title' => ['fa' => 'ساندویچ و اسنک', 'en' => 'Sandwiches & Snacks'],
         'items' => [
             ['اسنک', 'Snack', 280],
-            ['سیب‌زمینی، قارچ و پنیر (کوچک)', 'Chips, Mushroom & Cheese (Small)', 320],
-            ['سیب‌زمینی، قارچ و پنیر (بزرگ)', 'Chips, Mushroom & Cheese (Large)', 500],
+            ['چیپس، قارچ و پنیر (کوچک)', 'Chips, Mushroom & Cheese (Small)', 320],
+            ['چیپس، قارچ و پنیر (بزرگ)', 'Chips, Mushroom & Cheese (Large)', 500],
         ],
     ],
     [
@@ -23,7 +23,7 @@ return [
         'icon'  => 'leaf',
         'title' => ['fa' => 'چای و دمنوش', 'en' => 'Herbal Teas'],
         'items' => [
-            ['چای و نبات', 'Tea with Rock Candy', 85],
+            ['چای و نبات', 'Tea with Rock Candy', 80],
             ['چای هل و دارچین', 'Tea (Cardamom + Cinnamon)', 130],
             ['گل گاوزبان', 'Borage Tea', 140],
             ['دمنوش آرامش', 'Tranquility (Relaxation Blend)', 150],
@@ -112,6 +112,7 @@ return [
             ['تیرامیسو', 'Tiramisu', null],
             ['باقلوا', 'Baklava', null],
             ['چیزکیک لوتوس', 'Lotus Cheesecake', null],
+            ['کیک سه شیر', 'Tres Leches Cake', null],
         ],
     ],
     [
@@ -128,7 +129,8 @@ return [
             ['گروت', 'Groot', 210],
             ['وایلد وست', 'Wild West', 250],
             ['پاستیل', 'Pastille (Gummy)', 250],
-            ['جنگل', 'Jungle / Forest', 300],
+            ['هاوایی', 'Hawaii', 270],
+            ['کهکشان آبی', 'Blue Galaxy', 270],
         ],
     ],
     [
@@ -136,12 +138,11 @@ return [
         'icon'  => 'shake',
         'title' => ['fa' => 'شیک', 'en' => 'Shakes'],
         'items' => [
-            ['اسپرسو شیک', 'Espresso Shake', 250],
+            ['اسپرسو شیک', 'Espresso Shake', 320],
             ['وانیل', 'Vanilla', 220],
             ['توت‌فرنگی', 'Strawberry', 240],
             ['شکلات', 'Chocolate', 250],
             ['نوتلا', 'Nutella', 260],
-            ['بادام‌زمینی', 'Peanut', 260],
             ['بادام‌زمینی', 'Peanut', 300],
             ['پروتئین رژیمی', 'Diet Protein', 350],
         ],
