@@ -59,6 +59,9 @@ function client_ip(): string
         if ($last !== false && filter_var($last, FILTER_VALIDATE_IP)) {
             return $last;
         }
+        // Behind a proxy every request should carry the visitor's address. Without it the
+        // connection seems to come from this computer — never treat that as "local".
+        return 'unknown';
     }
     return (string) ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
 }

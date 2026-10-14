@@ -4,3 +4,6 @@ storage/*.log
 
 # QR code images (kept locally)
 qr/
+
+# Downloaded helper programs
+tools/
