@@ -18,11 +18,21 @@ A café menu website in Persian and English. The colour theme is chocolate, crea
 
 GitHub Pages can't run PHP, so the online menu is a static HTML copy in `docs/`, made by `build-static.php`. It has the start screen and the menu in both languages. The customer club needs a PHP server, so it isn't part of the online copy.
 
+**Two repositories:**
+
+| Repository | Visibility | Contents |
+|---|---|---|
+| `salehlava/paraph-cafe-source` (this one) | **private** | full PHP source |
+| `salehlava/paraf-cafe-menu` | public | **only** the HTML from `docs/`, served by GitHub Pages |
+
 To update the online menu after changing it locally, run `publish-menu.bat`, or:
 
 ```bash
 php build-static.php
-git add docs && git commit -m "Update online menu" && git push
+git add docs && git commit -m "Update online menu"
+git push origin main                                  # private source
+git subtree split --prefix docs -b public-menu
+git push public public-menu:main                      # public HTML menu
 ```
 
 ## Run locally
