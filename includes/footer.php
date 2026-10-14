@@ -19,7 +19,7 @@
         <div>
             <h4><?= e(t('contact', $lang)) ?></h4>
             <p><a href="tel:<?= e(preg_replace('/[^\d+]/', '', site('phone'))) ?>" dir="ltr"><?= e(num(site('phone'), $lang)) ?></a></p>
-            <p><a href="<?= e(site('instagram')) ?>" target="_blank" rel="noopener">Instagram</a></p>
+            <p><a href="<?= e(site('instagram')) ?>" target="_blank" rel="noopener" dir="ltr"><?= e(instagram_handle()) ?></a></p>
             <?php if (club_enabled()): ?>
                 <p><a href="club.php?lang=<?= e($lang) ?>"><?= e(t('club', $lang)) ?></a></p>
             <?php endif; ?>

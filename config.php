@@ -8,15 +8,15 @@
 const SETTINGS_DEFAULTS = [
     // Café info
     'name_fa'    => 'کافه پاراف',
-    'name_en'    => 'Paraf Café',
+    'name_en'    => 'Paraph Café',
     'tagline_fa' => 'قهوه، شکلات و لحظه‌های خوب',
     'tagline_en' => 'Coffee, chocolate & good moments',
     'address_fa' => 'آدرس کافه را اینجا بنویسید',
     'address_en' => 'Your café address goes here',
     'phone'      => '+98 900 000 0000',
-    'hours_fa'   => 'هر روز ۹ صبح تا ۱۲ شب',
-    'hours_en'   => 'Daily 9 AM – 12 AM',
-    'instagram'  => 'https://instagram.com/',
+    'hours_fa'   => 'هر روز ۸ صبح تا ۱۱ شب',
+    'hours_en'   => 'Daily 8 AM – 11 PM',
+    'instagram'  => 'https://instagram.com/paraph.cafe',
 
     // Colours (Admin → ظاهر و رنگ‌ها)
     'color_primary'  => '#4a2c1d',   // chocolate: buttons, icons, active tabs

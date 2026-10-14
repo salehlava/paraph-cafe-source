@@ -45,6 +45,13 @@ function site(string $key, ?string $lang = null): string
     return (string) setting($lang ? "{$key}_{$lang}" : $key);
 }
 
+/** "@handle" from the Instagram link, e.g. https://instagram.com/paraph.cafe → @paraph.cafe */
+function instagram_handle(): string
+{
+    $path = trim((string) parse_url(site('instagram'), PHP_URL_PATH), '/');
+    return $path !== '' ? '@' . explode('/', $path)[0] : 'Instagram';
+}
+
 /** Convert Latin digits to Persian digits when needed. */
 function num($n, string $lang): string
 {

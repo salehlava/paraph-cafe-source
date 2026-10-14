@@ -1,6 +1,5 @@
 <?php
 /** Start screen shown at the site root, before the menu. */
-$phone = site('phone');
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -59,13 +58,7 @@ $phone = site('phone');
             <?php if (site('instagram') !== ''): ?>
                 <a class="social-btn" href="<?= e(site('instagram')) ?>" target="_blank" rel="noopener">
                     <?= icon('instagram') ?>
-                    <span>اینستاگرام · Instagram</span>
-                </a>
-            <?php endif; ?>
-            <?php if ($phone !== ''): ?>
-                <a class="social-btn" href="tel:<?= e(preg_replace('/[^\d+]/', '', $phone)) ?>">
-                    <?= icon('phone') ?>
-                    <span dir="ltr"><?= e($phone) ?></span>
+                    <span dir="ltr"><?= e(instagram_handle()) ?></span>
                 </a>
             <?php endif; ?>
         </div>

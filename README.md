@@ -1,4 +1,4 @@
-# Paraf Café — Menu Website (PHP)
+# Paraph Café — Menu Website (PHP)
 
 A café menu website in Persian and English. The colour theme is chocolate, cream, white and black, with light and dark modes.
 
