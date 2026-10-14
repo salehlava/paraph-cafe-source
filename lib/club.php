@@ -49,7 +49,7 @@ function otp_send(string $phone): array
         return ['ok' => false, 'error' => 'sms', 'wait' => 0];
     }
 
-    return ['ok' => true, 'error' => null, 'wait' => 0, 'test_code' => setting('sms_driver') === 'log' ? $code : null];
+    return ['ok' => true, 'error' => null, 'wait' => 0, 'test_code' => setting('sms_driver') === 'log' && is_local_request() ? $code : null];
 }
 
 /** Check a one-time code. Max 5 attempts, valid for 5 minutes. */

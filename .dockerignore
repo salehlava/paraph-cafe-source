@@ -1,0 +1,12 @@
+# Not needed inside the image
+.git
+docs
+qr
+*.bat
+ADMIN.md
+build-static.php
+router.php
+
+# Never bake the database, backups or logs into the image
+storage/*.sqlite*
+storage/*.log

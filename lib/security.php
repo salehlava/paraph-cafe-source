@@ -31,15 +31,42 @@ if (PHP_SAPI !== 'cli' && !headers_sent()) {
     }
 }
 
+/**
+ * Behind a reverse proxy (Railway, Docker hosting…) set the environment variable TRUST_PROXY=1,
+ * so the real visitor IP and HTTPS are read from the proxy headers.
+ * Never enable it when the site is reachable directly: the headers could then be faked.
+ */
+function behind_proxy(): bool
+{
+    return getenv('TRUST_PROXY') === '1';
+}
+
 function is_https(): bool
 {
+    if (behind_proxy() && strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')) === 'https') {
+        return true;
+    }
     return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (int) ($_SERVER['SERVER_PORT'] ?? 0) === 443;
 }
 
-/** Visitor IP. X-Forwarded-For is NOT trusted (it can be faked). */
+/** Visitor IP. Proxy headers are only used when TRUST_PROXY=1 (otherwise they could be faked). */
 function client_ip(): string
 {
+    if (behind_proxy()) {
+        // The proxy appends the address it saw: take the LAST entry, not the first (which the client controls).
+        $chain = array_map('trim', explode(',', (string) ($_SERVER['HTTP_X_FORWARDED_FOR'] ?? '')));
+        $last  = end($chain);
+        if ($last !== false && filter_var($last, FILTER_VALIDATE_IP)) {
+            return $last;
+        }
+    }
     return (string) ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
+}
+
+/** True only for requests from the computer the site runs on. */
+function is_local_request(): bool
+{
+    return in_array(client_ip(), ['127.0.0.1', '::1'], true);
 }
 
 /* ---------- Rate limiting (stored in the database, so clearing cookies doesn't help) ---------- */

@@ -11,7 +11,7 @@ start_session();
 $club = &$_SESSION['club'];
 $club = $club ?? ['step' => 'phone'];
 
-if (setting('club_enabled') !== '1') {
+if (!club_enabled()) {
     $club = ['step' => 'closed'];
 }
 

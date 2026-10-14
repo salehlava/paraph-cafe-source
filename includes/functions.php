@@ -27,10 +27,17 @@ function menu_url(string $lang): string
     return defined('STATIC_EXPORT') ? "menu-$lang.html" : "?lang=$lang";
 }
 
-/** The customer club needs PHP + SMS, so it is hidden in the static HTML export. */
+/**
+ * The customer club needs PHP + SMS, so it is hidden in the static HTML export.
+ * In SMS test mode the code is shown on screen, so then the club only works on the server itself:
+ * online it stays closed until a real SMS provider is set in Admin → پنل پیامک.
+ */
 function club_enabled(): bool
 {
-    return !defined('STATIC_EXPORT') && setting('club_enabled') === '1';
+    if (defined('STATIC_EXPORT') || setting('club_enabled') !== '1') {
+        return false;
+    }
+    return setting('sms_driver') !== 'log' || is_local_request();
 }
 
 /** Translate a UI string key. */
