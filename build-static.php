@@ -1,63 +1,94 @@
 <?php
 /**
- * Builds a static HTML copy of the menu into docs/ for GitHub Pages.
- * GitHub Pages can't run PHP, so each page is rendered once to plain HTML.
- * No admin panel and no customer club (they need a PHP server).
+ * Builds the online site (GitHub Pages): start screen, menu pages and the online admin.
  *
- *   php build-static.php          → writes docs/
+ *   php build-static.php [target-folder] [--data]
  *
- * The menu, prices, café info and colours come from your local database,
- * so changes made in the admin panel appear after the next build.
+ * target-folder  defaults to docs/
+ * --data         also export the menu, café info and colours from the LOCAL database into
+ *                data/menu.json + data/site.json. Without it, existing data files are kept,
+ *                because the online admin edits them (only missing files are created).
+ *
+ * The pages read data/*.json in the browser, so menu changes don't need a rebuild.
  */
 if (PHP_SAPI !== 'cli') {
     http_response_code(404);
     exit;
 }
+require __DIR__ . '/lib/bootstrap.php';
 
-// Child mode: render one page to stdout.
-if (($argv[1] ?? '') === '--render') {
-    define('STATIC_EXPORT', true);
-    $lang = $argv[2] ?? '';
-    $_SERVER['REQUEST_METHOD'] = 'GET';
-    $_GET = $lang !== '' ? ['lang' => $lang] : [];
-    require __DIR__ . '/index.php';
-    exit;
-}
+$args     = array_slice($argv, 1);
+$withData = in_array('--data', $args, true);
+$target   = array_values(array_filter($args, fn($a) => $a !== '--data'))[0] ?? (__DIR__ . '/docs');
+$out      = rtrim(str_replace('\\', '/', $target), '/');
 
-$out = __DIR__ . '/docs';
-$pages = [
-    'index.html'   => '',     // start screen
-    'menu-fa.html' => 'fa',
-    'menu-en.html' => 'en',
-];
-$assets = ['assets/css/style.css', 'assets/js/main.js', 'assets/img/favicon.svg'];
-
-// Start from a clean folder so removed files don't linger.
-if (is_dir($out)) {
-    $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($out, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
-    foreach ($it as $f) {
-        $f->isDir() ? rmdir($f->getPathname()) : unlink($f->getPathname());
-    }
-}
 @mkdir($out, 0775, true);
 
-foreach ($pages as $file => $lang) {
-    $cmd = escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(__FILE__) . ' --render ' . escapeshellarg($lang);
-    $html = shell_exec($cmd);
-    if (!is_string($html) || stripos($html, '</html>') === false) {
-        fwrite(STDERR, "Failed to render $file\n");
-        exit(1);
-    }
-    file_put_contents("$out/$file", $html);
-    echo "  wrote docs/$file\n";
+/** Copy one file, creating folders as needed. */
+function put(string $from, string $to): void
+{
+    @mkdir(dirname($to), 0775, true);
+    copy($from, $to) || exit("Could not copy $from\n");
+    echo '  ' . $to . "\n";
 }
 
-foreach ($assets as $a) {
-    @mkdir(dirname("$out/$a"), 0775, true);
-    copy(__DIR__ . "/$a", "$out/$a");
-    echo "  copied docs/$a\n";
+// 1) Pages and scripts of the online site
+$src = __DIR__ . '/online';
+$it  = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($src, FilesystemIterator::SKIP_DOTS));
+foreach ($it as $f) {
+    $rel = str_replace('\\', '/', substr($f->getPathname(), strlen($src) + 1));
+    put($f->getPathname(), "$out/$rel");
 }
 
+// 2) Shared styles, menu behaviour and logo from the PHP site
+foreach (['assets/css/style.css', 'assets/css/admin.css', 'assets/js/main.js', 'assets/img/favicon.svg'] as $a) {
+    put(__DIR__ . "/$a", "$out/$a");
+}
 file_put_contents("$out/.nojekyll", '');   // serve files as-is on GitHub Pages
+
+// 3) Data files (menu + café info)
+@mkdir("$out/data", 0775, true);
+$json = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+
+if ($withData || !is_file("$out/data/menu.json")) {
+    $menu = ['categories' => []];
+    foreach (menu_load(true) as $c) {
+        $menu['categories'][] = [
+            'id'      => 'c' . $c['id'],
+            'icon'    => $c['icon'],
+            'title'   => ['fa' => $c['title_fa'], 'en' => $c['title_en']],
+            'note'    => ['fa' => $c['note_fa'], 'en' => $c['note_en']],
+            'visible' => (bool) $c['visible'],
+            'items'   => array_map(fn($i) => [
+                'id'        => 'i' . $i['id'],
+                'name'      => ['fa' => $i['name_fa'], 'en' => $i['name_en']],
+                'price'     => $i['price'] === null ? null : (int) $i['price'],
+                'available' => (bool) $i['available'],
+                'addon'     => (bool) $i['is_addon'],
+            ], $c['items']),
+        ];
+    }
+    file_put_contents("$out/data/menu.json", json_encode($menu, $json) . "\n");
+    echo "  $out/data/menu.json  (from local database)\n";
+} else {
+    echo "  $out/data/menu.json  kept (edited online)\n";
+}
+
+if ($withData || !is_file("$out/data/site.json")) {
+    $site = [];
+    foreach (['name', 'tagline', 'hours', 'address'] as $k) {
+        $site[$k] = ['fa' => site($k, 'fa'), 'en' => site($k, 'en')];
+    }
+    $site['phone']     = site('phone');
+    $site['instagram'] = site('instagram');
+    $site['colors']    = [];
+    foreach (COLOR_KEYS as $k) {
+        $site['colors'][substr($k, 6)] = theme_color($k);   // color_primary → primary
+    }
+    file_put_contents("$out/data/site.json", json_encode($site, $json) . "\n");
+    echo "  $out/data/site.json  (from local database)\n";
+} else {
+    echo "  $out/data/site.json  kept (edited online)\n";
+}
 
 echo "Done.\n";

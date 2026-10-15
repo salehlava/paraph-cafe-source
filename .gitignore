@@ -7,3 +7,7 @@ qr/
 
 # Downloaded helper programs
 tools/
+
+# Build output and the clone of the public menu repo (paraf-cafe-menu)
+docs/
+public-site/

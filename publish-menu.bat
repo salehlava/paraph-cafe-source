@@ -3,22 +3,19 @@ chcp 65001 >nul
 set PHP_EXE=C:\Users\poseidon\php\php.exe
 cd /d "%~dp0"
 echo.
-echo  Building the online menu (docs/) from your local menu...
-"%PHP_EXE%" build-static.php || goto :error
-git add docs
-git diff --cached --quiet && (echo  No changes to publish. & goto :end)
-git commit -m "Update online menu" || goto :error
+echo  Updating the online site's pages and design (your online menu edits are kept).
 
-rem Private repo (full source code)
-git push origin main || goto :error
-
-rem Public repo (ONLY the finished HTML menu from docs/)
-git subtree split --prefix docs -b public-menu || goto :error
-git push public public-menu:main || goto :error
-
+if not exist public-site\.git (
+    git clone https://github.com/salehlava/paraf-cafe-menu.git public-site || goto :error
+)
+git -C public-site pull --ff-only || goto :error
+"%PHP_EXE%" build-static.php public-site || goto :error
+git -C public-site add -A
+git -C public-site diff --cached --quiet && (echo  Nothing changed. & goto :end)
+git -C public-site commit -m "Update online site" || goto :error
+git -C public-site push || goto :error
 echo.
-echo  Published! It will be live in about 1 minute:
-echo  https://salehlava.github.io/paraf-cafe-menu/
+echo  Published! Live in about 1 minute:  https://salehlava.github.io/paraf-cafe-menu/
 goto :end
 :error
 echo.
