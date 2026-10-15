@@ -11,3 +11,6 @@ tools/
 # Build output and the clone of the public menu repo (paraf-cafe-menu)
 docs/
 public-site/
+
+# Hosting package (contains the database)
+deploy/
