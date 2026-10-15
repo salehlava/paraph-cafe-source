@@ -34,6 +34,15 @@ The repository [`salehlava/paraf-cafe-menu`](https://github.com/salehlava/paraf-
 - `publish-menu.bat` updates the online site's pages and design. It keeps the menu data edited online.
 - `replace-online-menu.bat` overwrites the online menu, café info and colours with the local admin's. It asks for confirmation.
 
+## Railway (whole site: menu, club, admin with username + password)
+
+1. **railway.com → New Project → Deploy from GitHub repo →** `salehlava/paraph-cafe-source`. Railway builds the `Dockerfile` by itself.
+2. **Settings → Volumes:** add a volume mounted at **`/app/storage`**. It holds the database; without it, every deploy erases your menu edits.
+3. **Variables:** `ADMIN_USERNAME` and `ADMIN_PASSWORD` (8+ characters). They create the admin account at the first start.
+4. **Settings → Networking → Generate Domain.** The admin is at `https://<domain>/admin/`.
+
+The site runs through `router.php`, which only serves the public pages, `/admin` and `/assets`, so the database can't be downloaded.
+
 ## Run locally
 
 Requires PHP 7.4+ with `pdo_sqlite`.
