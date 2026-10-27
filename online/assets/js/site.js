@@ -146,7 +146,11 @@
                     el('span', { 'class': 'dot', 'aria-hidden': 'true' }, ['•']),
                     el('span', { lang: 'en' }, [txt(site.hours, 'en')])
                 ]),
-                txt(site.address, 'fa') ? el('p', { 'class': 'welcome__address' }, [icon('pin'), ' ' + txt(site.address, 'fa')]) : null
+                txt(site.address, 'fa') ? el('p', { 'class': 'welcome__address' }, [icon('pin'), ' ' + txt(site.address, 'fa')]) : null,
+                txt(site.notice, 'fa') ? el('p', { 'class': 'welcome__notice' }, [
+                    el('span', { lang: 'fa' }, [txt(site.notice, 'fa')]),
+                    txt(site.notice, 'en') ? el('span', { lang: 'en', dir: 'ltr' }, [txt(site.notice, 'en')]) : null
+                ]) : null
             ])
         ]);
         document.body.replaceChildren(main);
@@ -187,7 +191,8 @@
                 el('p', { 'class': 'hero__eyebrow' }, [t('menu') + ' · ' + (LANG === 'fa' ? 'Menu' : 'منو')]),
                 el('h1', { 'class': 'hero__title' }, [txt(site.name)]),
                 el('p', { 'class': 'hero__tagline' }, [txt(site.tagline)]),
-                el('div', { 'class': 'hero__meta' }, [el('span', { 'class': 'pill' }, [txt(site.hours)])])
+                el('div', { 'class': 'hero__meta' }, [el('span', { 'class': 'pill' }, [txt(site.hours)])]),
+                txt(site.notice) ? el('p', { 'class': 'hero__notice' }, [txt(site.notice)]) : null
             ]),
             drip
         ]);

@@ -14,3 +14,6 @@ public-site/
 
 # Hosting package (contains the database)
 deploy/
+
+# TV menu images (generated)
+tv-menu/

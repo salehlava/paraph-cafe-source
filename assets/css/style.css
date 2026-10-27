@@ -552,3 +552,19 @@ html[dir="rtl"] .member-card__phone { text-align: end; }
     .hero__title, .hero__tagline { color: #000; }
     .category { box-shadow: none; opacity: 1; transform: none; border-color: #ccc; }
 }
+
+/* ---------- Notice to guests (e.g. table time) ---------- */
+.hero__notice {
+    max-width: 640px; margin: 16px auto 0; padding: 10px 18px; border-radius: 16px;
+    background: color-mix(in srgb, var(--cream) 10%, transparent);
+    border: 1px dashed color-mix(in srgb, var(--caramel) 70%, transparent);
+    color: var(--cream); font-size: .92rem; line-height: 1.8;
+}
+.welcome__notice {
+    margin: 18px auto 0; max-width: 460px; padding: 10px 16px; border-radius: 16px;
+    background: color-mix(in srgb, var(--cream) 8%, transparent);
+    border: 1px dashed color-mix(in srgb, var(--caramel) 60%, transparent);
+    font-size: .85rem; line-height: 1.8; color: color-mix(in srgb, var(--cream) 85%, transparent);
+}
+.welcome__notice span { display: block; }
+.welcome__notice [lang="en"] { font-size: .78rem; opacity: .75; margin-top: 4px; }

@@ -332,7 +332,7 @@
     }
     function normalize() {
         var s = data.site = data.site || {};
-        ['name', 'tagline', 'hours', 'address'].forEach(function (k) { s[k] = s[k] || { fa: '', en: '' }; });
+        ['name', 'tagline', 'hours', 'address', 'notice'].forEach(function (k) { s[k] = s[k] || { fa: '', en: '' }; });
         s.phone = s.phone || ''; s.instagram = s.instagram || '';
         s.colors = s.colors || {};
         var m = data.menu = data.menu || {};
@@ -531,7 +531,9 @@
                 field('آدرس (فارسی)', bindText(s.address, 'fa')),
                 field('آدرس (انگلیسی)', bindText(s.address, 'en', { dir: 'ltr' })),
                 field('تلفن (خالی = نمایش داده نشود)', bindText(s, 'phone', { dir: 'ltr' })),
-                field('اینستاگرام', insta)
+                field('اینستاگرام', insta),
+                field('پیام به مشتریان (فارسی) — مثلا مدت استفاده از میز', bindText(s.notice, 'fa'), true),
+                field('پیام به مشتریان (انگلیسی)', bindText(s.notice, 'en', { dir: 'ltr' }), true)
             ])
         ]);
     }
